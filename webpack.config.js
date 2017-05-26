@@ -1,48 +1,80 @@
+/* https://survivejs.com/react/advanced-techniques/styling-react/ */
 "use strict";
 
-const merge = require('webpack-merge');
+const path = require('path');
+const webpack = require('webpack');
 
-const PATHS = require('./webpack-paths');
-const loaders = require('./webpack-loaders');
+var src  = path.resolve(__dirname, 'client/src');
+var dist = path.resolve(__dirname, 'client/dist');
 
-const common = {
-	entry: {
-		app: ['babel-polyfill', PATHS.src]
+console.log(src+'/css');
+
+module.exports = {
+    entry: {
+		app: ['babel-polyfill', src]
 	},
-	output: {
-		path: PATHS.dist,
-		filename: 'bundle.js'
-	},
-	module: {
-    rules: [
-      loaders.babel,
-      loaders.css,
-      loaders.font,
-    ]
-  },
+
+    output: {
+        path: dist,
+        filename: 'bundle.js'
+    },
+
+    module: {
+        rules: [
+
+            /*{ enforce: 'pre',
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "jshint-loader"
+            },*/
+            
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+                include: src+'/css'
+            },
+            
+           /* { 
+                test: /\.scss/,
+                loaders: ['style-loader', 'css-loader', 'sass-loader']
+            },*/
+            
+            {
+                test: /\.ttf$/,
+                loaders: ['file-loader']  
+            },
+
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loaders: ['babel-loader']
+            },
+            
+        ],
+        
+    },
+
+    watch: true,
+
 	resolve: {
-    extensions: ['.js', '.jsx']
-  }
-};
+        extensions: ['.js', '.jsx']
+    },
 
-let config;
+    devtool: 'eval-source-map',
 
-switch(process.env.NODE_ENV) {
-	case 'build':
-		config = merge(
-		  common,
-      { devtool: 'source-map' }
-	  );
-		break;
-	case 'development':
-		config = merge(
-			common,
-			{ devtool: 'eval-source-map' },
-			loaders.devServer({
-				host: process.env.host,
-				port: 8888/*process.env.port*/
-			})
-		);
+    devServer: {
+			historyApiFallback: true,
+			hot: true,
+			inline: true,
+			stats: 'errors-only',
+			host: process.env.host,
+			port: 8888,
+			contentBase: dist,
+	}, 
+	
+	plugins: [
+	    new webpack.HotModuleReplacementPlugin({
+	    	multistep: true
+		})
+	]
 }
-
-module.exports = config;

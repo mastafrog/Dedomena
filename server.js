@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // We tell express where to find static assets
-app.use(express.static(__dirname + '/client/dist'));
+app.use(express.static(__dirname + '/client/dist/'));
 
 // Enable CORS so that we can make HTTP request from webpack-dev-server
 app.use((req, res, next) => {

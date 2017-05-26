@@ -6,7 +6,7 @@ class Form extends PureComponent {
   render () {
     const { picture, uploadPicture } = this.props;
     return (
-      <div className="row scrollable">
+      <div className="row content">
 				<div className="col-md-offset-2 col-md-8">
         <div className="text-left">
         <Link to="/games" className="btn btn-info">Back</Link>

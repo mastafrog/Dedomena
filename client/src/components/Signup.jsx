@@ -13,7 +13,7 @@ class Signup extends PureComponent {
   render () {
     const { picture, uploadPicture } = this.props;
     return (
-      <div className="row scrollable">
+      <div className="row">
 				<div className="col-md-offset-2 col-md-8">
           <div className="text-left">
           <Link to="/games" className="btn btn-info">Back</Link>
@@ -50,7 +50,8 @@ class Signup extends PureComponent {
                   <label htmlFor="password">Password</label>
                   <Field
                     name="password"
-                    component="textarea"
+                    component="input"
+                    type="password"
                     className="form-control"
                     placeholder="Enter the password"
                     rows="5"

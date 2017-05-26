@@ -17,7 +17,7 @@ export default class GamesListManager extends PureComponent {
     } = this.props;
 
     return (
-      <div className="container scrollable">
+      <div className="container">
         <div className="row text-left">
           <AddGamePanel logout={logout} userName={userName}/>
         </div>
